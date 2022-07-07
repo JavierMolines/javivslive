@@ -1,15 +1,21 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { IView } from './types'
-import { Container } from './styles'
+import { Container, ContentTextArea } from './styles'
 import { Window } from '../Window'
-import { baseHtml } from './html'
+import { baseHtml } from '../../utils/dynamic/html'
+import { ContentIframe } from '../Iframe/styles'
 
 const View: React.FC<IView> = () => {
   const iFrame = useRef<HTMLIFrameElement>(null)
   const iArea = useRef<HTMLTextAreaElement>(null)
+
+  const renderTextInFrame = (js: string) => {
+    if (iFrame.current === null) return
+    iFrame.current.srcdoc = baseHtml(js)
+  }
+
   const onChangeTextArea = () => {
     if (iArea.current === null) return
-    if (iFrame.current === null) return
 
     const config = { text: iArea.current.value }
     const regExp = /console.log(.*)/ig
@@ -22,41 +28,21 @@ const View: React.FC<IView> = () => {
       }
     }
 
-    iFrame.current.srcdoc = baseHtml(config.text)
+    renderTextInFrame(config.text)
   }
+
+  useEffect(() => {
+    renderTextInFrame('')
+  }, [])
 
   return (
     <Container>
-        <Window>
-            <textarea
-              ref={iArea}
-              name="contentSend"
-              id="contentSend"
-              onChange={onChangeTextArea}
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                outline: 'none',
-                padding: '0',
-                margin: '0',
-                display: 'block',
-                width: '100%',
-                height: '100%',
-                resize: 'none'
-              }}
-            />
-        </Window>
-        <Window>
-            <iframe
-              ref={iFrame}
-              style={{
-                border: 'none',
-                display: 'block',
-                width: '100%',
-                height: '100%'
-              }}
-            />
-        </Window>
+      <Window>
+        <ContentTextArea ref={iArea} name="contentSend" id="contentSend" onChange={onChangeTextArea} />
+      </Window>
+      <Window>
+        <ContentIframe ref={iFrame} />
+      </Window>
     </Container>
   )
 }
