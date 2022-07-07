@@ -9,7 +9,7 @@ const MonacoEditor: React.FC<IMonacoEditor> = ({ callbackOnChange }) => {
 
   return (
     <Editor
-      theme='hc-black'
+      theme='vs-dark'
       defaultLanguage='typescript'
       defaultValue='console.log("Type your code!.")'
       onChange={(value) => onChangeMonacoEditor(value ?? '')}
