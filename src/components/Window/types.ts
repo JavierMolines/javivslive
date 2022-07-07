@@ -1,10 +1,6 @@
 // TYPES FOR Window
 import React from 'react'
 
-export interface IStylesCustom {
-    withSpaces?: boolean
-}
-
-export interface IWindow extends IStylesCustom {
+export interface IWindow {
     children: React.ReactNode
 }

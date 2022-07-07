@@ -2,10 +2,9 @@ import React from 'react'
 import { IWindow } from './types'
 import { Container } from './styles'
 
-const Window: React.FC<IWindow> = ({ children, withSpaces }) => {
-  // BODY OF COMPONENT
+const Window: React.FC<IWindow> = ({ children }) => {
   return (
-    <Container withSpaces={withSpaces} >
+    <Container>
         {children}
     </Container>
   )
